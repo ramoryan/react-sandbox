@@ -1,0 +1,8 @@
+dist
+build
+node_modules
+bower_components
+.DS_Store
+*.lint
+*.log
+/coverage
