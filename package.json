@@ -1,8 +1,7 @@
 {
-  "name": "sen-witch",
+  "name": "sen-picipiac",
   "version": "1.0.0",
-  "description": "Sandbox for SEN",
-  "main": "index.js",
+  "description": "PiciPiac",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack --config webpack.build.js -p"
@@ -18,10 +17,13 @@
     "postcss-loader": "^2.0.5",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.17.0",
+    "svg-url-loader": "^2.0.2",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
+    "exports-loader": "^0.6.4",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",

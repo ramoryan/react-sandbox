@@ -26,7 +26,7 @@ devConfig.entry = [
 // necessary for HMR to know where to load the hot update chunks
 devConfig.output.publicPath = '/'
 
-devConfig.devtool = 'eval', // https://webpack.js.org/configuration/devtool/#for-development
+devConfig.devtool = 'inline-source-map', // https://webpack.js.org/configuration/devtool/#for-development
 
 devConfig.devServer = {
   // enable HMR on the server
@@ -36,7 +36,9 @@ devConfig.devServer = {
   contentBase: resolve(__dirname, 'dist'),
 
   // match the output `publicPath`
-  publicPath: '/'
+  publicPath: '/',
+
+  inline: true
 }
 
 devConfig.plugins.push(

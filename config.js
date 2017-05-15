@@ -3,21 +3,31 @@ const resolve = require('path').resolve
 const webpack = require('webpack')
 
 module.exports = {
+  // https://webpack.js.org/configuration/entry-context/#context
   context: resolve(__dirname, 'src'),
 
+  // https://webpack.js.org/configuration/output/
   output: {
-    // the output bundle
+    // https://webpack.js.org/configuration/output/#output-filename
     filename: 'bundle.js',
 
+    // https://webpack.js.org/configuration/output/#output-path
     path: resolve(__dirname, 'dist'),
   },
 
   resolve: {
+    // https://webpack.js.org/concepts/modules/
     modules: [
       resolve(__dirname, 'src'),
-      'node_modules'
+      'node_modules',
+      'bower_components'
     ],
-    extensions: [ '.js', '.jsx', '.scss' ]
+
+    // https://webpack.js.org/configuration/resolve/#resolve-descriptionfiles
+    descriptionFiles: ['package.json', 'bower.json'],
+
+    // https://webpack.js.org/configuration/resolve/#resolve-extensions
+    extensions: [ '.js', '.jsx', '.scss', '.svg' ]
   },
 
   module: {
@@ -30,6 +40,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader?modules', ],
+        include: /flexboxgrid/
       },
       {
         // https://github.com/webpack-contrib/sass-loader
@@ -37,12 +48,28 @@ module.exports = {
         use: [{
           loader: 'style-loader' // creates style nodes from JS strings
         }, {
-          loader: 'css-loader?modules' // translates CSS into CommonJS
-        },/* {
+          loader: 'css-loader', // translates CSS into CommonJS
+          options: {
+            modules: true,
+            camelCase: true
+          }
+        },
+        /* {
           loader: 'postcss-loader'
-        },*/ {
-          loader: 'sass-loader' // compiles Sass to CSS
+        },*/
+        {
+          loader: 'sass-loader', // compiles Sass to CSS
+          options: {
+            includePaths: [
+              'bower_components/styles/src/',
+              'src/styles'
+            ]
+          }
         }]
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-url-loader?noquotes'
       }
     ],
   },
@@ -59,6 +86,16 @@ module.exports = {
           })
         ]
       }
+    }),
+
+    // https://webpack.js.org/plugins/provide-plugin/
+    new webpack.ProvidePlugin({
+      React      : 'react',
+      PropTypes  : 'prop-types',
+      classnames : 'classnames',
+      Col        : 'exports-loader?Col!react-flexbox-grid/lib/components/Col',
+      Row        : 'exports-loader?Row!react-flexbox-grid/lib/components/Row',
+      Grid       : 'exports-loader?react-flexbox-grid/lib/components/Row'
     })
   ]
 }
