@@ -4,7 +4,8 @@
   "description": "Sandbox for SEN",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "build": "webpack --config webpack.build.js -p"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
