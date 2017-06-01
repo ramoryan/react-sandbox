@@ -1,4 +1,3 @@
-import React from 'react'
 import Link from 'components/link/Link'
 
 class Stateful extends React.Component {

@@ -1,6 +1,3 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-
 import styles from './Link.scss'
 
 const Link = ({ href, children }) => (

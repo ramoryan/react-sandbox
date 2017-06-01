@@ -1,58 +1,148 @@
-// https://webpack.js.org/guides/hmr-react/
-
 const resolve = require('path').resolve
 const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const config = require('./config.js')
+const __IS_DEV__ = (process.env.NODE_ENV !== 'production')
 
-const devConfig = Object.assign({}, config)
-devConfig.entry = [
-  // activate HMR for React
-  'react-hot-loader/patch',
-
-  // bundle the client for webpack-dev-server
-  // and connect to the provided endpoint
-  'webpack-dev-server/client?http://localhost:8080',
-
-  // bundle the client for hot reloading
-  // only- means to only hot reload for successful updates
-  'webpack/hot/only-dev-server',
-
-  // the entry point of our app
-  './index.jsx'
-]
-
-// necessary for HMR to know where to load the hot update chunks
-devConfig.output.publicPath = '/'
-
-devConfig.devtool = 'inline-source-map', // https://webpack.js.org/configuration/devtool/#for-development
-
-devConfig.devServer = {
-  // enable HMR on the server
-  hot: true,
-
-  // match the output path
-  contentBase: resolve(__dirname, 'dist'),
-
-  // match the output `publicPath`
-  publicPath: '/',
-
-  inline: true
+const postcssLoader = {
+  loader: 'postcss-loader',
+  options: {
+    plugins: () => {
+      if (!__IS_DEV__) {
+        return [
+          require('autoprefixer')({
+            browsers: [
+              'last 3 version',
+              'ie >= 10'
+            ]
+          })
+        ]
+      }
+    }
+  }
 }
 
-devConfig.plugins.push(
-  // enable HMR globally
-  new webpack.HotModuleReplacementPlugin(),
+const config = {
+  // https://webpack.js.org/configuration/entry-context/#context
+  context: resolve(__dirname, 'src'),
 
-  // prints more readable module names in the browser console on HMR updates
-  new webpack.NamedModulesPlugin(),
+  // https://webpack.js.org/configuration/output/
+  output: {
+    // https://webpack.js.org/configuration/output/#output-filename
+    filename: 'bundle.js',
 
-  // https://github.com/jantimon/html-webpack-plugin
-  new HtmlWebpackPlugin({
-    title: 'React Sandbox',
-    template: 'assets/index.ejs'
-  })
-)
+    // https://webpack.js.org/configuration/output/#output-path
+    path: resolve(__dirname, 'dist'),
+  },
 
-module.exports = devConfig
+  resolve: {
+    // https://webpack.js.org/concepts/modules/
+    modules: [
+      resolve(__dirname, 'src'),
+      'node_modules',
+      'bower_components'
+    ],
+
+    // https://webpack.js.org/configuration/resolve/#resolve-descriptionfiles
+    descriptionFiles: ['package.json', 'bower.json'],
+
+    // https://webpack.js.org/configuration/resolve/#resolve-extensions
+    extensions: [ '.js', '.jsx', '.scss', '.svg', '.jpg', '.png', '.mp3' ],
+
+    // https://webpack.js.org/configuration/resolve/#resolve-alias
+    alias: {
+    }
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.(?:js|jsx)$/,
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
+        }],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader?modules', ]
+      },
+      {
+        // https://github.com/webpack-contrib/sass-loader
+        test: /\.scss$/,
+        use: [{
+          loader: 'style-loader' // creates style nodes from JS strings
+        }, {
+          loader: 'css-loader', // translates CSS into CommonJS
+          options: {
+            modules: true,
+            camelCase: true,
+            localIdentName: __IS_DEV__ ? '[local]' : '[path][name]__[local]--[hash:base64:5]'
+          }
+        },
+        postcssLoader,
+        {
+          loader: 'sass-loader', // compiles Sass to CSS
+          options: {
+            includePaths: [
+              resolve(__dirname, 'bower_components/styles/src'),
+              resolve(__dirname, 'src/styles'),
+              resolve(__dirname, 'node_modules')
+            ]
+          }
+        }]
+      },
+      {
+        test: /\.svg$/,
+        loader: __IS_DEV__ ? 'file-loader' : 'svg-url-loader?noquotes',
+        options: __IS_DEV__ ? {
+          name: 'images/[name].[ext]'
+        } : '' // ha itt object van átadva, akkor marad quote!
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf)$/,
+        loader: 'url-loader',
+        options: {
+          limit: __IS_DEV__ ? 10 : 10000000,
+          name: 'fonts/[name].[ext]'
+        }
+      },
+      {
+        // ha 10 megánál nagyobb képeink, hangjaink vannak, akkor a limitet meg kell növelni!
+        test   : /\.(jpe?g|png|gif)$/i,
+        loader : 'url-loader',
+        options : {
+          limit: __IS_DEV__ ? 10 : 10000000,
+          name: 'images/[name].[ext]'
+        }
+      },
+      {
+        test    : /\.(mp3|wav|ogg)$/,
+        loader  : 'url-loader',
+        options : {
+          limit: __IS_DEV__ ? 10 : 10000000,
+          name: 'sfx/[name].[ext]'
+        }
+      }
+    ]
+  },
+
+  plugins: [
+    // https://webpack.js.org/plugins/provide-plugin/
+    new webpack.ProvidePlugin({
+      React      : 'react',
+      PropTypes  : 'prop-types',
+      classnames : 'classnames',
+      is         : 'is',
+      Text       : [ 'text/src/Text', 'default' ],
+      Brick      : [ 'brick/src/Brick', 'default' ],
+      Flex       : [ 'flex/src/Flex', 'default' ],
+      Col        : [ 'flex/src/Flex', 'Col' ],
+      Row        : [ 'flex/src/Flex', 'Row' ]
+    })
+  ]
+}
+
+module.exports = config // eslint-disable-line no-undef
