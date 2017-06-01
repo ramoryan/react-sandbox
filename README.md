@@ -13,8 +13,8 @@ React homokozó, nem önálló appok fejlesztéséhez. A buildelés library-kén
   * [x] jpg/svg
   * [x] PostCSS
   * [ ] wav/mp3
-- [ ] ESLint
-- [ ] SCSSLint
+  * [X] [eslint-loader](https://github.com/MoOx/eslint-loader)
+  * [ ] [stylelint-webpack-plugin](https://github.com/JaKXz/stylelint-webpack-plugin)
 
 ## Parancsok:
 - npm start: Elindítja a dev-servert, ami elérhető a localhost:8080-on.

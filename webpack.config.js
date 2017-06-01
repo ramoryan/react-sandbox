@@ -57,12 +57,23 @@ const config = {
     rules: [
       {
         test: /\.(?:js|jsx)$/,
-        use: [{
-          loader: 'babel-loader',
-          options: {
-            cacheDirectory: true
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true
+            }
+          },
+          {
+            loader: 'eslint-loader',
+            options: {
+              configFile: resolve(__dirname, '.eslintrc'),
+              optionsReport: {
+                filePath: 'eslint.xml'
+              }
+            }
           }
-        }],
+        ],
         exclude: /node_modules/
       },
       {

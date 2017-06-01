@@ -18,6 +18,7 @@ const render = (Component) => {
 render(App)
 
 // Hot Module Replacement API
+/* eslint-disable no-undef */
 if (module.hot) {
   module.hot.accept('./components/app/App.jsx', () => {
     render(App)
