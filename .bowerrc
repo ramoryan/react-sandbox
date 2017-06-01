@@ -1,4 +1,0 @@
-{
-  "directory": "bower_components/",
-  "shorthand-resolver": "git@git.corp.balazs-diak.hu:{{owner}}/{{package}}.git"
-}

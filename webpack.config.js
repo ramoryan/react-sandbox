@@ -134,13 +134,7 @@ const config = {
     new webpack.ProvidePlugin({
       React      : 'react',
       PropTypes  : 'prop-types',
-      classnames : 'classnames',
-      is         : 'is',
-      Text       : [ 'text/src/Text', 'default' ],
-      Brick      : [ 'brick/src/Brick', 'default' ],
-      Flex       : [ 'flex/src/Flex', 'default' ],
-      Col        : [ 'flex/src/Flex', 'Col' ],
-      Row        : [ 'flex/src/Flex', 'Row' ]
+      classnames : 'classnames'
     })
   ]
 }

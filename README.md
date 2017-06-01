@@ -9,12 +9,12 @@ React homokozó, nem önálló appok fejlesztéséhez. A buildelés library-kén
   * [x] dev-server
   * [x] Hot Module Replacement
   * [x] styles loader
-  * [ ] ProvidePlugin
-  * [ ] jpg/svg
+  * [x] ProvidePlugin
+  * [x] jpg/svg
+  * [x] PostCSS
   * [ ] wav/mp3
-  - [ ] PostCSS
-
-- [x] [React Flexbox](https://github.com/roylee0704/react-flexbox-grid)
+- [ ] ESLint
+- [ ] SCSSLint
 
 ## Parancsok:
 - npm start: Elindítja a dev-servert, ami elérhető a localhost:8080-on.
