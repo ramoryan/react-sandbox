@@ -1,4 +1,7 @@
 {
+  // https://github.com/babel/babel-eslint#setup
+  "parser": "babel-eslint",
+
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
@@ -36,10 +39,15 @@
 
     // webpack PluginProvide -al behúzott függőségek
     "React": true,
-    "PropTypes": true
+    "PropTypes": true,
+    "autobind": true,
+    "classnames": true
   },
 
   "rules": {
+    // https://github.com/babel/babel-eslint#setup
+    "strict": 0,
+
     // React
     // https://www.npmjs.com/package/eslint-plugin-react
 

@@ -145,7 +145,8 @@ const config = {
     new webpack.ProvidePlugin({
       React      : 'react',
       PropTypes  : 'prop-types',
-      classnames : 'classnames'
+      classnames : 'classnames',
+      autobind   : 'autobind-decorator'
     })
   ]
 }

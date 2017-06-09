@@ -15,9 +15,14 @@ class Stateful extends React.Component {
     }, 2500)
   }
 
+  @autobind
+  onClick () {
+    console.log(this.state) // eslint-disable-line no-console
+  }
+
   render () {
     return (
-      <div>
+      <div onClick={ this.onClick } >
         <h2>Stateful komponens</h2>
         <p style={ { color: this.state.isRed ? 'red' : 'black' } } >Hogy többet megtudj, kattints a linkre!</p>
         <Link href="https://facebook.github.io/react/docs/state-and-lifecycle.html">

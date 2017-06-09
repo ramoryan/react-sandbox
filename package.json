@@ -9,8 +9,11 @@
     "lint:js": "webpack --config webpack.eslint.js"
   },
   "devDependencies": {
+    "autobind-decorator": "^1.4.1",
     "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
